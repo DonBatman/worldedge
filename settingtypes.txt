@@ -1,0 +1,2 @@
+#Change world size 
+worldedge.world_size (Set world size) int 5000
