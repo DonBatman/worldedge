@@ -1,2 +1,2 @@
-#Change world size 
-worldedge.world_size (Set world size) int 5000
+
+myland_expiry_days (Set number of days) int 30

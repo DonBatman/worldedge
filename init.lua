@@ -1,41 +1,17 @@
-local world = tonumber(core.settings:get("worldedge.world_size")) or 5000
+myland = {}
+myland.modpath = core.get_modpath("myland")
+myland.storage = core.get_mod_storage()
 
-local count = 0
-local edge = world --sets the edge of map
-local newedge = world --sets the other side where player teleports to. Should be a few blocks less than edge
-minetest.register_globalstep(function(dtime)   
-   count = count + dtime
-   if count > 5 then
-      count = 0
-      local players = minetest.get_connected_players()
-      for _,player in pairs(players) do
-         local pos = player:getpos()
-         if pos.x >= edge then
-            player:moveto({x = -newedge, y = pos.y, z = pos.z})
-         end
-         if pos.x <= -edge then
-            player:moveto({x = newedge, y = pos.y, z = pos.z})
-         end
+myland.expiry_days = 60
+myland.height_buffer_up = 75
+myland.height_buffer_down = 75
+myland.max_claims_default = 8
 
--- This section is for the Y cord. It will move you from bottom to top or top to bottom of map
---[[         
-         if pos.y >= edge then
-            player:moveto({x = pos.x, y = -newedge, z = pos.z})
-         end
-         if pos.y <= -edge then
-            player:moveto({x = pos.x, y = newedge, z = pos.z})
-         end
---]]
-
-         
-         if pos.z >= edge then
-            player:moveto({x = pos.x, y = pos.y, z = -newedge})
-         end
-         if pos.z <= -edge then
-            player:moveto({x = pos.x, y = pos.y, z = newedge})
-         end
-       end
-   end
-end)
-
-
+dofile(myland.modpath .. "/functions/pos_to_chunk.lua")
+dofile(myland.modpath .. "/functions/claiming.lua")
+dofile(myland.modpath .. "/functions/protection.lua")
+dofile(myland.modpath .. "/functions/hud.lua")
+dofile(myland.modpath .. "/functions/chat_commands.lua")
+dofile(myland.modpath .. "/functions/logic.lua")
+dofile(myland.modpath .. "/functions/nodes.lua")
+dofile(myland.modpath .. "/functions/abm.lua")
